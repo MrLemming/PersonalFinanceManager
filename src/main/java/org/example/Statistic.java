@@ -1,14 +1,19 @@
 package org.example;
 
-import java.io.File;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.TreeMap;
+import com.google.gson.Gson;
 
-public class Statistic {
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.Serializable;
+import java.util.*;
+
+public class Statistic implements Serializable {
 
     private final Map<String, ProductsCategory> itemsByCategory = new TreeMap<>();
     private final Map<String, String> itemsFromRequest = new TreeMap<>();
+
+    private final Map<String, String> itemByCategoryByDate = new TreeMap<>();
 
 
     public Statistic() {
@@ -42,7 +47,7 @@ public class Statistic {
         }
     }
 
-    public ProductsCategory getMaxCategory() {
+     public ProductsCategory getMaxCategory() {
         int maxSum = Integer.MIN_VALUE;
         ProductsCategory maxCategory = null;
 
@@ -70,6 +75,19 @@ public class Statistic {
             newCategory.totalSum(request);
             itemsFromRequest.put(request.title, "другое");
             itemsByCategory.put("другое", newCategory);
+        }
+    }
+
+    public void saveBin() throws Exception {
+        try (FileWriter fileWriter = new FileWriter("data.bin")) {
+            Gson gson = new Gson();
+            gson.toJson(this, fileWriter);
+        }
+    }
+    public static Statistic loadFromBinFile() throws Exception {
+        try (FileReader fileReader = new FileReader("data.bin")) {
+            Gson gson = new Gson();
+            return gson.fromJson(fileReader, Statistic.class);
         }
     }
 
