@@ -13,9 +13,6 @@ public class Statistic implements Serializable {
     private final Map<String, ProductsCategory> itemsByCategory = new TreeMap<>();
     private final Map<String, String> itemsFromRequest = new TreeMap<>();
 
-    private final Map<String, String> itemByCategoryByDate = new TreeMap<>();
-
-
     public Statistic() {
         loadCategoriesFromTSV();
     }
