@@ -5,10 +5,9 @@ import com.google.gson.Gson;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.Serializable;
 import java.util.*;
 
-public class Statistic implements Serializable {
+public class Statistic {
 
     private final Map<String, ProductsCategory> itemsByCategory = new TreeMap<>();
     private final Map<String, String> itemsFromRequest = new TreeMap<>();
@@ -44,7 +43,7 @@ public class Statistic implements Serializable {
         }
     }
 
-     public ProductsCategory getMaxCategory() {
+    public ProductsCategory getMaxCategory() {
         int maxSum = Integer.MIN_VALUE;
         ProductsCategory maxCategory = null;
 
@@ -81,6 +80,7 @@ public class Statistic implements Serializable {
             gson.toJson(this, fileWriter);
         }
     }
+
     public static Statistic loadFromBinFile() throws Exception {
         try (FileReader fileReader = new FileReader("data.bin")) {
             Gson gson = new Gson();
